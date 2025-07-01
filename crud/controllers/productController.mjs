@@ -82,10 +82,5 @@ res.status(200).json({msg:'Product Deleted Successfully!',
   res.json({msg:error})
  }
 } 
-
-
-
-
-
 const controller ={getAllProducts,addProduct, getProduct,deleteProduct}
 export default controller;

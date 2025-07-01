@@ -10,7 +10,7 @@ dotenv.config();
 const port = process.env.PORT
 main().catch(err => console.log(err));
 async function main() {
-  await mongoose.connect('mongodb+srv://harisTest:oSWuM1rGBXq4zBxX@cluster0.cnwrfjk.mongodb.net/2302b1?retryWrites=true&w=majority&appName=Cluster0');
+  await mongoose.connect(process.env.MONGO_URL);
 console.log("db connected")
   // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
 }
