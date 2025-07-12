@@ -1,5 +1,6 @@
 import User from "../models/user.mjs"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 let getAllUsers= async(req, res) => {
   let users= await User.find();
@@ -50,6 +51,56 @@ const newUser= new User({
   
 
 }
+// login 
+let Login= async(req, res) => {
 
-const userController ={getAllUsers,Signup}
+const checkUser= await User.findOne({email:req.body.email});
+
+if(!checkUser){
+  res.json({msg:"User does not exists. Please register first."}).status(200);
+
+}else{
+  const match = await bcrypt.compare(req.body.password, checkUser.password);
+
+    if(match) {
+      const token= await jwt.sign({email:checkUser.email,role:checkUser.role},process.env.JWT_SECRET,{ expiresIn: '2h'})
+
+      res.json({msg:"User Logged in successfully.", user :checkUser,token:token}).status(200);
+    }
+
+else{
+  res.json({msg:"Invalid Credentials."}).status(400);
+
+}
+};
+
+}
+
+
+//auth middleware
+    //through Authorization headers bearer
+    const auth = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ msg: 'Authorization token missing or malformed' });
+    }
+    const token = authHeader.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Optionally attach decoded data to request for downstream use
+    req.user = decoded;
+    console.log(decoded)
+    next();
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ msg: 'Invalid or expired token' });
+  }
+};
+
+
+
+
+
+
+const userController ={getAllUsers,Signup, Login,auth}
 export default userController;

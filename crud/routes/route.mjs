@@ -4,16 +4,17 @@ import userController from "../controllers/userController.mjs";
 const router= express.Router();
 router
 //GET REQUESTS
-.get('/',controller.getAllProducts)
+.get('/',userController.auth,controller.getAllProducts)
 .get('/product/:id',controller.getProduct)
 .delete('/deleteproduct/:id',controller.deleteProduct)
 
 //POST REQUESTs
-.post('/addproduct',controller.addProduct)
+.post('/addproduct',userController.auth,controller.addProduct)
 
 //Users
 .get("/allusers",userController.getAllUsers)
-.post("/signup",userController.Signup)
+.post("/auth/signup",userController.Signup)
+.post("/auth/login",userController.Login)
 
 
 export default router;
