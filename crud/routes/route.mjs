@@ -15,6 +15,7 @@ router
 .get("/allusers",userController.getAllUsers)
 .post("/auth/signup",userController.Signup)
 .post("/auth/login",userController.Login)
+.post("/user/verify",userController.sendEmail)
 
 
 export default router;
