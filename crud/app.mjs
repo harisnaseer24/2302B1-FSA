@@ -2,9 +2,11 @@ import express from 'express'
 import dotenv from 'dotenv'
 import router from './routes/route.mjs';
 import mongoose from 'mongoose';
+import cors from "cors"
 
 const app = express()
 //body parser
+app.use(cors())
 app.use(express.json())
 dotenv.config();
 const port = process.env.PORT

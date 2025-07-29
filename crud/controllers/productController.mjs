@@ -82,5 +82,38 @@ res.status(200).json({msg:'Product Deleted Successfully!',
   res.json({msg:error})
  }
 } 
-const controller ={getAllProducts,addProduct, getProduct,deleteProduct}
+
+//Image Uploading 
+let addProductWithImage= async(req, res) => {
+  console.log(req.file);
+let newProduct={
+  title: req.body.title,
+  description: req.body.description,
+  price: req.body.price,
+  rating: req.body.rating,
+  stock: req.body.stock,
+  brand: req.body.brand,
+  category: req.body.category,
+  thumbnail: req.file.path,
+  discountPercentage: req.body.discountPercentage,
+  images: req.file.path,
+}
+let addProduct= await Product.insertOne(newProduct);
+  if(!addProduct){
+    res.status(404).json({msg:'Failed to add product!'})
+  }else
+  {
+res.status(200).json({msg:'Product added successfully',
+  product:addProduct
+})
+
+}
+}
+
+
+
+
+
+
+const controller ={getAllProducts,addProduct, getProduct,deleteProduct,addProductWithImage}
 export default controller;

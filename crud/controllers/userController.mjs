@@ -202,5 +202,33 @@ const transporter = nodemailer.createTransport({
 // Send OTP 4 digit which should be expired in 1 min 
 //Verify OTP
 
-const userController ={getAllUsers,Signup, Login,auth, sendEmail}
+
+//change activation status
+const changeActivationStatus=async (req,res)=>{
+
+try {
+  const id = req.params.id;
+  let status = req.params.status;
+
+if (status== "active") {
+  status=true;
+} else {
+  status=false;
+  
+}
+  let getUser= await User.updateOne({_id:id},{isActive:status});
+  if(getUser){
+res.json({msg:"User activation status updated successfully."}).status(200)
+}else{
+    res.json({msg:"User activation status updation failed."}).status(400)
+
+  }
+} catch (error) {
+  console.log(error)
+  res.status(500).json({msg:error})
+}
+}
+
+
+const userController ={getAllUsers,Signup, Login,auth, sendEmail,changeActivationStatus}
 export default userController;
