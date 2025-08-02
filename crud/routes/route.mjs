@@ -11,7 +11,8 @@ router
 .delete('/deleteproduct/:id',controller.deleteProduct)
 
 //POST REQUESTs
-.post('/addproduct',userController.auth,controller.addProduct)
+// .post('/addproduct',userController.auth,controller.addProduct)
+.post('/addproduct',controller.addProduct)
 
 
 .post('/addproductwithimage',upload.single("image"),controller.addProductWithImage)

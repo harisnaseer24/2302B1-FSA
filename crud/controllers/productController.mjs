@@ -25,7 +25,7 @@ let newProduct={
   stock: req.body.stock,
   brand: req.body.brand,
   category: req.body.category,
-  thumbnail: req.body.thumbnail,
+  thumbnail: req.body.images,
   discountPercentage: req.body.discountPercentage,
   images: req.body.images,
 }
